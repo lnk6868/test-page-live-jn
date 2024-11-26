@@ -168,14 +168,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
     </script>
     <script>
-        lifat = getCookie('li_fat_id');
-        first = document.getElementById('firstName').value;
-        last = document.getElementById('lastName').value;
-        analytics.identify(lifat, {
-          firstname: first,
-          lastname: last
-        });
- 
+        window.addEventListener('load', function() {
+            lifat = getCookie('li_fat_id');
+            first = document.getElementById('firstName').value;
+            last = document.getElementById('lastName').value;
+            analytics.identify(lifat, {
+              firstname: first,
+              lastname: last
+            });
+        })
     </script>
 </body>
 </html>
