@@ -168,7 +168,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
     </script>
     <script>
-        window.addEventListener('load', function() {
+        setTimeout(function() {
+        // Your code here
             lifat = getCookie('li_fat_id');
             first = document.getElementById('firstName').value;
             last = document.getElementById('lastName').value;
@@ -176,7 +177,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               firstname: first,
               lastname: last
             });
-        })
+        }, 3000);
     </script>
 </body>
 </html>
