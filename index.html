@@ -94,6 +94,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <input type="text" id="oracleMoatId" name="oracleMoatId">
         <br><br>
 
+        <input type="hidden" name="li_fat_id" id="li_fat_id_field">
+
         <button type="submit">Submit</button>
     </form>
 
@@ -111,6 +113,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
     <a href="https://www.toolband.com/">Tool Band</a>
+
+    <script>
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  function getParameterByName(name) {
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var url = window.location.href;
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+
+  var li_fat_id = getParameterByName('li_fat_id');
+  if (li_fat_id) {
+    setCookie('li_fat_id', li_fat_id, 30);  // Store for 30 days
+  }
+
+  // When the form is ready, populate the hidden field with the li_fat_id cookie value
+  document.addEventListener("DOMContentLoaded", function () {
+    var fatId = getCookie('li_fat_id');
+    if (fatId) {
+      var input = document.getElementById('li_fat_id_field');
+      if (input) input.value = fatId;
+    }
+  });
+</script>
 
     <script>
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
