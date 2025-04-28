@@ -48,6 +48,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             cursor: pointer;
         }
     </style>
+    <!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/4878438.js"></script>
+<!-- End of HubSpot Embed Code -->
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
@@ -94,8 +97,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <input type="text" id="oracleMoatId" name="oracleMoatId">
         <br><br>
 
-        <input type="hidden" name="li_fat_id" id="li_fat_id_field">
-
         <button type="submit">Submit</button>
     </form>
 
@@ -113,42 +114,78 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
     <a href="https://www.toolband.com/">Tool Band</a>
+    
+    <!-- HubSPot test click id, form -->
+   <form id="customForm">
+    <input type="text" name="firstname" placeholder="First Name" required>
+    <input type="email" name="email" placeholder="Email" required>
 
-    <script>
-  function setCookie(name, value, days) {
-    var expires = "";
-    if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      expires = "; expires=" + date.toUTCString();
+    <!-- Hidden field for LinkedIn cookie -->
+    <input type="hidden" id="linkedin_cookie" name="linkedin_cookie">
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Helper to get a cookie by name
+    function getCookie(name) {
+      const value = "; " + document.cookie;
+      const parts = value.split("; " + name + "=");
+      if (parts.length === 2) return parts.pop().split(";").shift();
     }
-    document.cookie = name + "=" + (value || "") + expires + "; path=/";
-  }
 
-  function getParameterByName(name) {
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var url = window.location.href;
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
+    // When page loads, populate hidden field
+    document.addEventListener('DOMContentLoaded', function() {
+      const linkedinCookie = getCookie('li_fat_id'); // Replace 'li_fat_id' with your real LinkedIn cookie name if different
+      if (linkedinCookie) {
+        document.getElementById('linkedin_cookie').value = linkedinCookie;
+      }
+    });
 
-  var li_fat_id = getParameterByName('li_fat_id');
-  if (li_fat_id) {
-    setCookie('li_fat_id', li_fat_id, 30);  // Store for 30 days
-  }
+    // Handle form submission
+    document.getElementById('customForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent normal form submit
 
-  // When the form is ready, populate the hidden field with the li_fat_id cookie value
-  document.addEventListener("DOMContentLoaded", function () {
-    var fatId = getCookie('li_fat_id');
-    if (fatId) {
-      var input = document.getElementById('li_fat_id_field');
-      if (input) input.value = fatId;
-    }
-  });
-</script>
+      const form = e.target;
+
+      const formData = {
+        fields: [
+          { name: "firstname", value: form.firstname.value },
+          { name: "email", value: form.email.value },
+          { name: "linkedin_cookie", value: form.linkedin_cookie.value }
+        ],
+        context: {
+          hutk: getCookie('hubspotutk'), // HubSpot tracking cookie for session tracking
+          pageUri: window.location.href,
+          pageName: document.title
+        }
+      };
+
+      fetch('https://api.hsforms.com/submissions/v3/integration/submit/4878438/b7c9edc9-b3ee-4740-8f97-4d21352ad790', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => {
+        if (response.ok) {
+          // Form submitted successfully
+          window.location.href = '/thank-you'; // Redirect to a Thank You page
+        } else {
+          // Form submission error
+          return response.json().then(data => {
+            console.error('Submission error:', data);
+          });
+        }
+      })
+      .catch(error => {
+        console.error('Network or server error:', error);
+      });
+    });
+  </script>
+
+    
 
     <script>
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
@@ -217,8 +254,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
         }, 3000);
     </script>
-    <!-- Start of HubSpot Embed Code -->
-<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/4878438.js"></script>
-<!-- End of HubSpot Embed Code -->
+    
 </body>
 </html>
