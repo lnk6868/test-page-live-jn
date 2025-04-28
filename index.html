@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        // Function to get the 'li_fat_id' from the URL (LinkedIn Cookie)
+        function getLinkedInCookie() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('li_fat_id');
+        }
+
+        // Function to get a cookie value by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Initialize LinkedIn cookie
+        const linkedInCookie = getLinkedInCookie();
+        if (linkedInCookie) {
+            document.getElementById('linkedin_cookie').value = linkedInCookie;
+        }
+    </script>
     <!-- Segment tag -->
     <script>
   !function(){var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel='canonical']");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey="90jPCsGjC1sUAhAbBQ3SsETTD43JGqaQ";;analytics.SNIPPET_VERSION="5.2.0";
@@ -116,69 +136,72 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="https://www.toolband.com/">Tool Band</a>
     
     <!-- HubSPot test click id, form -->
-  <form id="myForm">
-  <input type="text" id="firstname" name="firstname" placeholder="First Name" required />
-  <input type="text" id="lastname" name="lastname" placeholder="Last Name" required />
-  <input type="email" id="email" name="email" placeholder="Email" required />
-  <input type="hidden" id="linkedin_cookie" name="linkedin_cookie" />
-  <button type="submit">Submit</button>
-</form>
-    
+  <form method="POST" id="myForm">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required />
+        <br><br>
+        
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" required />
+        <br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <br><br>
+        
+        <input type="hidden" id="linkedin_cookie" name="linkedin_cookie" />
+        
+        <button type="submit">Submit</button>
+    </form>
 
+    <script>
+        // Event listener for form submission
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
 
-<script>
-    // Function to get a cookie value by name
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
+            // Create an object for the form data
+            const formData = {
+                firstname: document.getElementById("firstname").value,
+                lastname: document.getElementById("lastname").value,
+                email: document.getElementById("email").value,
+                linkedin_cookie: document.getElementById("linkedin_cookie").value // LinkedIn Cookie
+            };
 
-  // Function to get the 'li_fat_id' from the URL (LinkedIn Cookie)
-function getLinkedInCookie() {
-  // Extract the 'li_fat_id' from the URL query string (e.g., ?li_fat_id=12345)
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('li_fat_id'); // This will return the value of li_fat_id
-}
+            // Log the form data
+            console.log("Form Data Sent:", formData);
 
-// Ensure the LinkedIn cookie is set before the form is submitted
-document.getElementById('linkedin_cookie').value = getLinkedInCookie();
-
-// Listen for form submission
-document.getElementById('myForm').addEventListener('submit', function(event) {
-  event.preventDefault(); // Prevent the form from refreshing the page
-
-  // Create FormData object to send the form data
-  var formData = new FormData();
-  
-  // Append form field values to the FormData object
-  formData.append("firstname", document.getElementById("firstname").value);  // First Name
-  formData.append("lastname", document.getElementById("lastname").value);    // Last Name
-  formData.append("email", document.getElementById("email").value);          // Email
-  formData.append("linkedin_cookie", document.getElementById("linkedin_cookie").value); // LinkedIn Cookie (hidden field)
-
-  // Log form data to console to ensure everything is correct
-  console.log("Form Data Sent:", formData);
-
-  // Send the form data to HubSpot via the API
-  fetch('https://api.hsforms.com/submissions/v3/integration/submit/4878438/b85c8731-0db4-4a17-aa89-a9a2298d5ec1', {
-    method: 'POST',
-    body: formData,
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Form submission response:', data); // Log the API response
-    if (data.inlineMessage) {
-      alert(data.inlineMessage); // Optionally alert the user on success
-    }
-  })
-  .catch(error => {
-    console.error('Form submission error:', error); // Log any errors
-  });
-});
-
-
-</script>
+            // Send data to HubSpot via the API
+            fetch('https://api.hsforms.com/submissions/v3/integration/submit/4878438/b85c8731-0db4-4a17-aa89-a9a2298d5ec1', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Make sure the content type is JSON
+                },
+                body: JSON.stringify({
+                    fields: [
+                        { name: 'firstname', value: formData.firstname },
+                        { name: 'lastname', value: formData.lastname },
+                        { name: 'email', value: formData.email },
+                        { name: 'linkedin_cookie', value: formData.linkedin_cookie }
+                    ],
+                    context: {
+                        hutk: getCookie('hubspotutk'), // HubSpot cookie for tracking user sessions
+                        pageUri: window.location.href,
+                        pageName: document.title
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Form submission response:', data);
+                if (data.inlineMessage) {
+                    alert(data.inlineMessage); // Show success message
+                }
+            })
+            .catch(error => {
+                console.error('Form submission error:', error); // Log errors
+            });
+        });
+    </script>
 
     <script>
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
