@@ -171,7 +171,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       .then(response => {
         if (response.ok) {
           // Form submitted successfully
-          window.location.href = '/thank-you'; // Redirect to a Thank You page
+          alert('HubSpot Form sbummited'); // Redirect to a Thank You page
         } else {
           // Form submission error
           return response.json().then(data => {
