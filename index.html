@@ -117,62 +117,72 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="https://www.toolband.com/">Tool Band</a>
     
     <!-- HubSPot test click id, form -->
-  <form method="POST" id="myForm">
+  <form id="myForm">
         <label for="firstname">First Name:</label>
-        <input type="text" id="firstname" name="firstname" required />
+        <input type="text" id="firstname" name="firstname" placeholder="First Name" required />
         <br><br>
-        
+
         <label for="lastname">Last Name:</label>
-        <input type="text" id="lastname" name="lastname" required />
+        <input type="text" id="lastname" name="lastname" placeholder="Last Name" required />
         <br><br>
-        
+
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" placeholder="Email" required />
         <br><br>
-        
+
         <input type="hidden" id="linkedin_cookie" name="linkedin_cookie" />
-        
+        <br><br>
+
         <button type="submit">Submit</button>
     </form>
 
     <script>
+        // Function to get the 'li_fat_id' either from the URL or from the cookies
         function getLinkedInCookie() {
+            // First, try to get the 'li_fat_id' from the URL parameters
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('li_fat_id');
+            let cookieValue = urlParams.get('li_fat_id');
+            
+            // If 'li_fat_id' is not found in the URL, check for it in the cookies
+            if (!cookieValue) {
+                cookieValue = getCookie('li_fat_id'); // This is the function to retrieve cookies
+            }
+
+            return cookieValue; // Return either the URL parameter or the cookie value
         }
 
-        // Function to get a cookie value by name
+        // Helper function to get a cookie by name
         function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
+            const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? match[2] : null;
         }
 
-        // Initialize LinkedIn cookie
-        const linkedInCookie = getLinkedInCookie();
-        if (linkedInCookie) {
-            document.getElementById('linkedin_cookie').value = linkedInCookie;
-        }
-        // Event listener for form submission
+        // Now, ensure the LinkedIn cookie value is set in the form
+        document.getElementById('linkedin_cookie').value = getLinkedInCookie();
+
+        // Log the LinkedIn cookie value for debugging
+        console.log("LinkedIn Cookie Value Set in Hidden Field:", document.getElementById('linkedin_cookie').value);
+
+        // Listen for form submission
         document.getElementById('myForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault(); // Prevent form submission from refreshing the page
 
-            // Create an object for the form data
+            // Collect form data and add the LinkedIn cookie
             const formData = {
-                firstname: document.getElementById("firstname").value,
-                lastname: document.getElementById("lastname").value,
-                email: document.getElementById("email").value,
-                linkedin_cookie: document.getElementById("linkedin_cookie").value // LinkedIn Cookie
+                firstname: document.getElementById('firstname').value,
+                lastname: document.getElementById('lastname').value,
+                email: document.getElementById('email').value,
+                linkedin_cookie: document.getElementById('linkedin_cookie').value
             };
 
-            // Log the form data
+            // Log the form data to verify it's correct
             console.log("Form Data Sent:", formData);
 
-            // Send data to HubSpot via the API
+            // Send the data to HubSpot API
             fetch('https://api.hsforms.com/submissions/v3/integration/submit/4878438/b85c8731-0db4-4a17-aa89-a9a2298d5ec1', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' // Make sure the content type is JSON
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     fields: [
@@ -182,7 +192,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         { name: 'linkedin_cookie', value: formData.linkedin_cookie }
                     ],
                     context: {
-                        hutk: getCookie('hubspotutk'), // HubSpot cookie for tracking user sessions
+                        hutk: getCookie('hubspotutk'),  // Assuming HubSpot cookie is already set
                         pageUri: window.location.href,
                         pageName: document.title
                     }
@@ -190,13 +200,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Form submission response:', data);
+                console.log('Form submission response:', data); // Log the response
                 if (data.inlineMessage) {
-                    alert(data.inlineMessage); // Show success message
+                    alert(data.inlineMessage); // Optionally alert on success
                 }
             })
             .catch(error => {
-                console.error('Form submission error:', error); // Log errors
+                console.error('Form submission error:', error); // Log any errors
             });
         });
     </script>
