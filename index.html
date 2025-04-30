@@ -49,9 +49,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             cursor: pointer;
         }
     </style>
-    <!-- Start of HubSpot Embed Code -->
-<script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/4878438.js"></script>
-<!-- End of HubSpot Embed Code -->
+    
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
@@ -115,92 +113,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
     <a href="https://www.toolband.com/">Tool Band</a>
-    
-    <!-- HubSPot test click id, form -->
-  <form id="myForm">
-    <label for="firstname">First Name:</label>
-    <input type="text" id="firstname" name="firstname" placeholder="First Name" required />
-    <br><br>
-
-    <label for="lastname">Last Name:</label>
-    <input type="text" id="lastname" name="lastname" placeholder="Last Name" required />
-    <br><br>
-
-    <label for="emailhubspot">Email:</label>
-    <input type="email" id="emailhubspot" name="email" placeholder="Email" required />
-    <br><br>
-
-    <input type="hidden" id="linkedin_cookie" name="linkedin_cookie" />
-    <br><br>
-
-    <button type="submit">Submit</button>
-</form>
-
-    <script>
-        // Function to get the 'li_fat_id' either from the URL or from the cookies
-        document.addEventListener('DOMContentLoaded', function() {
-
-    function getCookie(name) {
-        const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-        return match ? match[2] : null;
-    }
-
-    function getLinkedInCookie() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let cookieValue = urlParams.get('li_fat_id');
-        if (!cookieValue) {
-            cookieValue = getCookie('li_fat_id');
-        }
-        return cookieValue;
-    }
-
-    // Set LinkedIn cookie hidden field AFTER DOM ready
-    document.getElementById('linkedin_cookie').value = getLinkedInCookie();
-    console.log("LinkedIn Cookie Value Set:", document.getElementById('linkedin_cookie').value);
-
-    document.getElementById('myForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const firstname = document.getElementById('firstname').value.trim();
-        const lastname = document.getElementById('lastname').value.trim();
-        const email = document.getElementById('emailhubspot').value.trim();
-        const linkedin_cookie = document.getElementById('linkedin_cookie').value;
-
-        console.log("Form Data Ready:", { firstname, lastname, email, linkedin_cookie });
-
-        fetch('https://api.hsforms.com/submissions/v3/integration/submit/4878438/b85c8731-0db4-4a17-aa89-a9a2298d5ec1', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                fields: [
-                    { name: 'firstname', value: firstname },
-                    { name: 'lastname', value: lastname },
-                    { name: 'email', value: email },
-                    { name: 'linkedin_cookie', value: linkedin_cookie }
-                ],
-                context: {
-                    hutk: getCookie('hubspotutk') || '',  
-                    pageUri: window.location.href,
-                    pageName: document.title
-                }
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Form submission response:', data);
-            if (data.inlineMessage) {
-                alert(data.inlineMessage);
-            }
-        })
-        .catch(error => {
-            console.error('Form submission error:', error);
-        });
-    });
-
-});
-    </script>
 
     <script>
         document.getElementById('submissionForm').addEventListener('submit', function(event) {
