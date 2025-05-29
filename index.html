@@ -185,6 +185,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
         }, 3000);
     </script>
+    <script>
+  document.getElementById('purchase').addEventListener('click', function () {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'purchase',
+      value: 199.99,
+      currency: 'USD',
+      is_new_customer: true,
+      transaction_id: 'TX12345678',
+      user_email: 'test@example.com'
+    });
+    alert('Purchase event pushed to dataLayer!');
+  });
+</script>
+
     
 </body>
 </html>
