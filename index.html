@@ -57,7 +57,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-    <button id="purchase"> SEND PURCHASE DATA </button>
+    <button id="purchase"> SEND PURCHASE DATA NEW CUSTOMER</button>
+
+    <br>
+
+    <button id="purchaseAll"> SEND PURCHASE DATA ALL CUSTOMERS</button>
 
     <br>
 
@@ -197,6 +201,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       user_email: 'test@example.com'
     });
     alert('Purchase event pushed to dataLayer!');
+  });
+</script>
+
+    <script>
+  document.getElementById('purchaseAll').addEventListener('click', function () {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'purchase',
+      value: 210,
+      currency: 'GBP',
+      is_new_customer: false,
+      transaction_id: 'AB1234999w',
+      user_email: 'testALL@exampleall.com'
+    });
+    alert('Purchase ALL event pushed to dataLayer!');
   });
 </script>
 
