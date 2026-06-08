@@ -23,9 +23,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 100vh; /* Changed from height to min-height to prevent scrolling layout issues */
+            min-height: 100vh;
             margin: 0;
-            padding: 20px 0; /* Added breathing room for scrolling */
+            padding: 20px 0;
         }
         form {
             margin-bottom: 20px;
@@ -84,7 +84,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="video-container">
         <h3>Test 2: Raw HTML5 Video Tracking</h3>
         <video width="560" height="315" controls id="test-html5-video">
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+            <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
     </div>
@@ -198,7 +198,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
     <script>
         setTimeout(function() {
-        // Your code here
             lifat = getCookie('li_fat_id');
             first = document.getElementById('firstName').value;
             last = document.getElementById('lastName').value;
