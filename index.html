@@ -2,32 +2,30 @@
 <html lang="en">
 <head>
 
-    <!-- Segment tag -->
     <script>
   !function(){var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel='canonical']");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey="90jPCsGjC1sUAhAbBQ3SsETTD43JGqaQ";;analytics.SNIPPET_VERSION="5.2.0";
   analytics.load("90jPCsGjC1sUAhAbBQ3SsETTD43JGqaQ");
   analytics.page();
   }}();
 </script>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-TJLMXXWL');</script>
-<!-- End Google Tag Manager -->
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submission Form and Tic Tac Toe</title>
+    <title>Submission Form, Tic Tac Toe and Video Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start;
+            min-height: 100vh; /* Changed from height to min-height to prevent scrolling layout issues */
             margin: 0;
+            padding: 20px 0; /* Added breathing room for scrolling */
         }
         form {
             margin-bottom: 20px;
@@ -37,6 +35,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             grid-template-columns: repeat(3, 100px);
             grid-template-rows: repeat(3, 100px);
             gap: 5px;
+            margin-bottom: 20px;
         }
         .cell {
             width: 100px;
@@ -48,16 +47,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border: 1px solid #000;
             cursor: pointer;
         }
+        .video-container {
+            margin: 20px 0;
+            text-align: center;
+        }
     </style>
     
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJLMXXWL"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJLMXXWL"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-    <button id="purchase"> SEND PURCHASE DATA NEW CUSTOMER</button>
+<button id="purchase"> SEND PURCHASE DATA NEW CUSTOMER</button>
 
     <br>
 
@@ -69,6 +69,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <br>
     <br>
 
+    <div class="video-container">
+        <h3>Test 1: YouTube Video Tracking</h3>
+        <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="video-container">
+        <h3>Test 2: Raw HTML5 Video Tracking</h3>
+        <video width="560" height="315" controls id="test-html5-video">
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
     <h1>Submission Form and Tic Tac Toe</h1>
     
     <form method="POST" id="submissionForm">
